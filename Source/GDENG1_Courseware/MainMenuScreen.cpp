@@ -36,6 +36,12 @@ void UMainMenuScreen::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 void UMainMenuScreen::OnSnowmanClicked()
 {
 	UE_LOG(LogTemp, Display, TEXT("On snowman clicked!"));
-	UGameplayStatics::OpenLevel(this, "SampleLevel", true);
+	UGameplayStatics::OpenLevel(this, "SnowmanLevel", true);
+}
+
+void UMainMenuScreen::OnEscapeClicked()
+{
+	UE_LOG(LogTemp, Display, TEXT("On escape clicked!"));
+	UGameplayStatics::OpenLevel(this, "EscapeLevel", true);
 }
 

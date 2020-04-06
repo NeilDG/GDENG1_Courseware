@@ -4,27 +4,37 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "MainMenuScreen.generated.h"
+#include "Engine/TriggerVolume.h"
+#include "OpenDoor.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class GDENG1_COURSEWARE_API UMainMenuScreen : public UActorComponent
+class GDENG1_COURSEWARE_API UOpenDoor : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
-	UMainMenuScreen();
+	UOpenDoor();
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	UFUNCTION(BlueprintCallable, Category = "Main Menu Functions") void OnSnowmanClicked();
-	UFUNCTION(BlueprintCallable, Category = "Main Menu Functions") void OnEscapeClicked();
+	UPROPERTY(EditAnywhere) float openingYaw = 90.0f;
+	UPROPERTY(EditAnywhere) float closingYaw = 0.0f;
+	UPROPERTY(EditAnywhere) ATriggerVolume* pressurePlate;
+	UPROPERTY(EditAnywhere) AActor* actorOpener;
+
+	float ticks = 0.0f;
+	float initialYaw;
+	float currentYaw;
+
+	enum DoorState { OPEN = 0, CLOSED = 1 };
+	DoorState doorState = OPEN;
 };
