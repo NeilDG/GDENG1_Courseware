@@ -26,7 +26,7 @@ void UOpenDoor::BeginPlay()
 	this->initialYaw = this->GetOwner()->GetActorRotation().Yaw;
 	this->currentYaw = this->initialYaw;
 	//this->targetYaw = this->initialYaw + 90.0f;
-	this->openingYaw += this->initialYaw;
+	//this->openingYaw += this->initialYaw;
 
 	//assign actor automatically
 	this->actorOpener = this->GetWorld()->GetFirstPlayerController()->GetPawn();
