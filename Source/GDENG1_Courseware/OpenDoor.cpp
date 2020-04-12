@@ -25,8 +25,7 @@ void UOpenDoor::BeginPlay()
 
 	this->initialYaw = this->GetOwner()->GetActorRotation().Yaw;
 	this->currentYaw = this->initialYaw;
-	//this->targetYaw = this->initialYaw + 90.0f;
-	//this->openingYaw += this->initialYaw;
+	this->openingYaw += this->initialYaw;
 
 	//assign actor automatically
 	this->actorOpener = this->GetWorld()->GetFirstPlayerController()->GetPawn();
@@ -63,7 +62,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	//UE_LOG(LogTemp, Display, TEXT("Ticks: %f"), this->ticks);
 
 	if (this->doorState == OPEN) {
-		this->currentYaw = FMath::Lerp(this->currentYaw, this->openingYaw, DeltaTime * 1.0f);
+		this->currentYaw = FMath::Lerp(this->currentYaw, this->openingYaw, DeltaTime * 3.0f);
 
 		FRotator doorRot = this->GetOwner()->GetActorRotation();
 		doorRot.Yaw = this->currentYaw;
