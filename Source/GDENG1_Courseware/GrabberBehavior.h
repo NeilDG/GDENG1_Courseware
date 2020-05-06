@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Components/PrimitiveComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "GrabberBehavior.generated.h"
 
 
@@ -26,5 +28,13 @@ public:
 
 private:
 	float REACH = 200.0f;
+	bool hasGrabbed = false;
+	bool hasThrown = false;
+	AActor* grabbedActor = NULL;
+	UPhysicsHandleComponent* physicsHandle = NULL;
+	UPrimitiveComponent* primitiveComp = NULL;
+
 	void Grab();
+	void Release();
+	void Throw();
 };

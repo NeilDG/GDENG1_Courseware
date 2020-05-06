@@ -27,6 +27,9 @@ void UGrabberBehavior::BeginPlay()
 
 	UInputComponent* inputComponent = this->GetOwner()->FindComponentByClass<UInputComponent>();
 	inputComponent->BindAction("Grab", EInputEvent::IE_Pressed, this, &UGrabberBehavior::Grab);
+	inputComponent->BindAction("Grab", EInputEvent::IE_Released, this, &UGrabberBehavior::Release);
+	inputComponent->BindAction("Throw", EInputEvent::IE_Pressed, this, &UGrabberBehavior::Throw);
+
 }
 
 
@@ -35,13 +38,41 @@ void UGrabberBehavior::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	if (this->hasGrabbed) {
+		//get player view point
+		FVector location;
+		FRotator rotation;
+		this->GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(out location, out rotation);
+		FVector lineTraceEnd = location + rotation.Vector() * REACH;
 
+		if (this->grabbedActor != NULL) {
+
+			if (this->physicsHandle != NULL) {
+				this->physicsHandle->SetTargetLocation(lineTraceEnd);
+			}
+			else {
+				//fallback
+				UE_LOG(LogTemp, Display, TEXT("Physics handle missing. Using fallback!"));
+				FVector grabbedLoc = this->grabbedActor->GetActorLocation();
+				grabbedLoc = lineTraceEnd;
+				grabbedActor->SetActorLocation(grabbedLoc);
+			}
+
+			if (this->hasThrown) {
+				this->hasThrown = false;
+				this->primitiveComp->AddForce(FVector(0.0, 0.0, 10000.0f));
+			}
+			
+		}
+	}
+}
+
+void UGrabberBehavior::Grab()
+{
 	//get player view point
 	FVector location;
 	FRotator rotation;
 	this->GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(out location, out rotation);
-
-	//UE_LOG(LogTemp, Warning, TEXT("Location: %s   Rotation: %s"), *location.ToString(), *rotation.ToString());
 
 	//perform line tracing
 	FVector lineTraceEnd = location + rotation.Vector() * REACH;
@@ -50,17 +81,35 @@ void UGrabberBehavior::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	//raycast to a certain distance
 	FHitResult hitResult;
 	FCollisionQueryParams traceParams(FName(TEXT("myQuery")), false, this->GetOwner()); //params for line tracing
-	this->GetWorld()->LineTraceSingleByObjectType(out hitResult, location, lineTraceEnd, 
+	this->GetWorld()->LineTraceSingleByObjectType(out hitResult, location, lineTraceEnd,
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody), traceParams);
-
-	if (hitResult.GetActor() != NULL) {
-		UE_LOG(LogTemp, Warning, TEXT("Hit name: %s"), *hitResult.GetActor()->GetName());
+	this->grabbedActor = hitResult.GetActor();
+	if (this->grabbedActor != NULL) {
+		this->hasGrabbed = true;
+		//using physics handle component
+		this->physicsHandle = this->grabbedActor->FindComponentByClass<UPhysicsHandleComponent>();
+		if (this->physicsHandle != NULL) {
+			//denotes the origin
+			this->physicsHandle->GrabComponentAtLocation(this->primitiveComp, EName::NAME_None, lineTraceEnd);
+		}
+		this->primitiveComp = hitResult.GetComponent();
+		UE_LOG(LogTemp, Display, TEXT("Grabbed!"));
 	}
-	
 }
 
-void UGrabberBehavior::Grab()
+void UGrabberBehavior::Release()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Grabbed!"));
+	UE_LOG(LogTemp, Display, TEXT("Released!"));
+	this->hasGrabbed = false;
+
+	if (this->physicsHandle != NULL) {
+		this->physicsHandle->ReleaseComponent();
+	}
+}
+
+void UGrabberBehavior::Throw()
+{
+	UE_LOG(LogTemp, Display, TEXT("Throw!"));
+	this->hasThrown = true;
 }
 
