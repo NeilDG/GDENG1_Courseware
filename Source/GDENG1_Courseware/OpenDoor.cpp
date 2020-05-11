@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
+#include "Components/PrimitiveComponent.h"
 
 
 // Sets default values for this component's properties
@@ -28,7 +29,7 @@ void UOpenDoor::BeginPlay()
 	this->openingYaw += this->initialYaw;
 
 	//assign actor automatically
-	this->actorOpener = this->GetWorld()->GetFirstPlayerController()->GetPawn();
+	//this->actorOpener = this->GetWorld()->GetFirstPlayerController()->GetPawn();
 
 }
 
@@ -50,11 +51,22 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	*/
 
 	//open door
-	if (this->actorOpener != NULL && this->pressurePlate->IsOverlappingActor(this->actorOpener) && this->doorState == CLOSED) {
+	//UE_LOG(LogTemp, Display, TEXT("Total mass: %f"), this->GetTotalMass());
+	if (this->GetTotalMass() >= this->totalMass && this->doorState == CLOSED) {
 		this->ticks = 0.0f;
 		this->doorState = OPEN;
 	}
-	else if (this->doorState == OPEN) {
+	/*if (this->actorOpener != NULL && this->pressurePlate->IsOverlappingActor(this->actorOpener) && this->doorState == CLOSED) {
+		this->ticks = 0.0f;
+		this->doorState = OPEN;
+	}
+	else if (this->alternativeOpener != NULL && this->pressurePlate->IsOverlappingActor(this->alternativeOpener) && this->doorState == CLOSED) {
+		//IMPORTANT: Actor must have generate overlap event set to true in collision componennts
+		this->ticks = 0.0f;
+		this->doorState = OPEN;
+		UE_LOG(LogTemp, Display, TEXT("Using cube opener!"));
+	}*/
+	else if (this->GetTotalMass() < this->totalMass && this->doorState == OPEN) {
 		this->doorState = CLOSED;
 	}
 
@@ -76,5 +88,18 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		this->GetOwner()->SetActorRotation(doorRot);
 	}
 
+}
+
+float UOpenDoor::GetTotalMass() const
+{
+	TArray<AActor*> actors;
+	this->pressurePlate->GetOverlappingActors(actors);
+	
+	float mass = 0.0f;
+	for (int i = 0; i < actors.Num(); i++) {
+		UPrimitiveComponent* primitive = actors[i]->FindComponentByClass<UPrimitiveComponent>();
+		mass += primitive->GetMass();
+	}
+	return mass;
 }
 

@@ -37,7 +37,6 @@ void UGrabberBehavior::BeginPlay()
 void UGrabberBehavior::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 	if (this->hasGrabbed) {
 		//get player view point
 		FVector location;
@@ -57,15 +56,15 @@ void UGrabberBehavior::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 				grabbedLoc = lineTraceEnd;
 				grabbedActor->SetActorLocation(grabbedLoc);
 			}
-
-			if (this->hasThrown) {
-				this->hasThrown = false;
-				this->primitiveComp->AddForce(FVector(0.0, 0.0, 10000.0f));
-			}
-			
 		}
 	}
 }
+
+
+/*if (this->hasThrown) {
+	this->hasThrown = false;
+	this->primitiveComp->AddForce(FVector(0.0, 0.0, 10000.0f));
+}*/
 
 void UGrabberBehavior::Grab()
 {
@@ -86,21 +85,23 @@ void UGrabberBehavior::Grab()
 	this->grabbedActor = hitResult.GetActor();
 	if (this->grabbedActor != NULL) {
 		this->hasGrabbed = true;
+		this->primitiveComp = hitResult.GetComponent();
+		UE_LOG(LogTemp, Display, TEXT("Grabbed! %s"), *this->grabbedActor->GetName());
+
 		//using physics handle component
 		this->physicsHandle = this->grabbedActor->FindComponentByClass<UPhysicsHandleComponent>();
 		if (this->physicsHandle != NULL) {
 			//denotes the origin
 			this->physicsHandle->GrabComponentAtLocation(this->primitiveComp, EName::NAME_None, lineTraceEnd);
 		}
-		this->primitiveComp = hitResult.GetComponent();
-		UE_LOG(LogTemp, Display, TEXT("Grabbed!"));
-	}
+	}	
 }
 
 void UGrabberBehavior::Release()
 {
 	UE_LOG(LogTemp, Display, TEXT("Released!"));
 	this->hasGrabbed = false;
+	this->grabbedActor = NULL;
 
 	if (this->physicsHandle != NULL) {
 		this->physicsHandle->ReleaseComponent();

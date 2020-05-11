@@ -29,12 +29,16 @@ private:
 	UPROPERTY(EditAnywhere) float openingYaw = 90.0f;
 	UPROPERTY(EditAnywhere) float closingYaw = 0.0f;
 	UPROPERTY(EditAnywhere) ATriggerVolume* pressurePlate;
-	UPROPERTY(EditAnywhere) AActor* actorOpener;
+	//UPROPERTY(EditAnywhere) AActor* actorOpener;
+	//UPROPERTY(EditAnywhere) AActor* alternativeOpener;
 
 	float ticks = 0.0f;
 	float initialYaw;
 	float currentYaw;
+	float totalMass = 180.0f;
 
 	enum DoorState { OPEN = 0, CLOSED = 1 };
 	DoorState doorState = OPEN;
+
+	float GetTotalMass() const;
 };
