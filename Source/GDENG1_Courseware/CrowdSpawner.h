@@ -4,40 +4,33 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Engine/TriggerVolume.h"
-#include "OpenDoor.generated.h"
+#include "Containers/List.h"
+#include "CrowdSpawner.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class GDENG1_COURSEWARE_API UOpenDoor : public UActorComponent
+class GDENG1_COURSEWARE_API UCrowdSpawner : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:
+public:	
 	// Sets default values for this component's properties
-	UOpenDoor();
+	UCrowdSpawner();
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:
+public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	UPROPERTY(EditAnywhere) float openingYaw = 90.0f;
-	UPROPERTY(EditAnywhere) float closingYaw = 0.0f;
-	UPROPERTY(EditAnywhere) ATriggerVolume* pressurePlate;
-	//UPROPERTY(EditAnywhere) AActor* actorOpener;
-
 	float ticks = 0.0f;
-	float initialYaw;
-	float currentYaw;
-	float totalMass = 180.0f;
+	float INTERVAL = 0.25f;
+	UPROPERTY(EditAnywhere) AActor* crowdActor;
 
-	enum DoorState { OPEN = 0, CLOSED = 1 };
-	DoorState doorState = OPEN;
-
-	float GetTotalMass() const;
+	void SpawnNActors() const;
+	//TList<AActor*> spawnedActors;
+		
 };

@@ -39,33 +39,13 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	/*
-	this->ticks += DeltaTime;
-	FRotator currentRot = this->GetOwner()->GetActorRotation();
-	//UE_LOG(LogTemp, Display, TEXT("Current Rot %f"), currentRot.Yaw);
-
-	if (currentRot.Yaw <= 90.0f) {
-		currentRot.Yaw += 10.0f * DeltaTime;
-		this->GetOwner()->SetActorRotation(currentRot);
-	}
-	*/
-
 	//open door
 	//UE_LOG(LogTemp, Display, TEXT("Total mass: %f"), this->GetTotalMass());
 	if (this->GetTotalMass() >= this->totalMass && this->doorState == CLOSED) {
 		this->ticks = 0.0f;
 		this->doorState = OPEN;
 	}
-	/*if (this->actorOpener != NULL && this->pressurePlate->IsOverlappingActor(this->actorOpener) && this->doorState == CLOSED) {
-		this->ticks = 0.0f;
-		this->doorState = OPEN;
-	}
-	else if (this->alternativeOpener != NULL && this->pressurePlate->IsOverlappingActor(this->alternativeOpener) && this->doorState == CLOSED) {
-		//IMPORTANT: Actor must have generate overlap event set to true in collision componennts
-		this->ticks = 0.0f;
-		this->doorState = OPEN;
-		UE_LOG(LogTemp, Display, TEXT("Using cube opener!"));
-	}*/
+	
 	else if (this->GetTotalMass() < this->totalMass && this->doorState == OPEN) {
 		this->doorState = CLOSED;
 	}
@@ -88,6 +68,29 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		this->GetOwner()->SetActorRotation(doorRot);
 	}
 
+
+	/*
+	this->ticks += DeltaTime;
+	FRotator currentRot = this->GetOwner()->GetActorRotation();
+	//UE_LOG(LogTemp, Display, TEXT("Current Rot %f"), currentRot.Yaw);
+
+	if (currentRot.Yaw <= 90.0f) {
+		currentRot.Yaw += 10.0f * DeltaTime;
+		this->GetOwner()->SetActorRotation(currentRot);
+	}
+	*/
+
+
+	/*if (this->actorOpener != NULL && this->pressurePlate->IsOverlappingActor(this->actorOpener) && this->doorState == CLOSED) {
+		this->ticks = 0.0f;
+		this->doorState = OPEN;
+	}
+	else if (this->alternativeOpener != NULL && this->pressurePlate->IsOverlappingActor(this->alternativeOpener) && this->doorState == CLOSED) {
+		//IMPORTANT: Actor must have generate overlap event set to true in collision componennts
+		this->ticks = 0.0f;
+		this->doorState = OPEN;
+		UE_LOG(LogTemp, Display, TEXT("Using cube opener!"));
+	}*/
 }
 
 float UOpenDoor::GetTotalMass() const
