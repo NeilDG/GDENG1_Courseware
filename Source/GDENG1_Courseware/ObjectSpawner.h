@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Containers/Array.h"
 #include "ObjectSpawner.generated.h"
 
 
@@ -26,8 +27,16 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere) AActor* actorCopy = NULL;
+	UPROPERTY(EditAnywhere) int spawnLimit = 10;
 	float ticks = 0.0f;
+	float destroyTicks = 0.0f;
 	float INTERVAL = 1.0f;
+	float DELETE_INTERVAL = 10.0f;
+
+	TArray<AActor*> spawnedObjects;
+
+	void DeleteAll();
+	
 
 		
 };
