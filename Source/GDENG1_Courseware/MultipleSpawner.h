@@ -3,19 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Containers/Array.h"
 #include "Components/ActorComponent.h"
-#include "Containers/List.h"
-#include "CrowdSpawner.generated.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "MultipleSpawner.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class GDENG1_COURSEWARE_API UCrowdSpawner : public UActorComponent
+class GDENG1_COURSEWARE_API UMultipleSpawner : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UCrowdSpawner();
+	UMultipleSpawner();
 
 protected:
 	// Called when the game starts
@@ -24,13 +25,17 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 private:
-	float ticks = 0.0f;
-	float INTERVAL = 0.25f;
-	UPROPERTY(EditAnywhere) AActor* crowdActor;
+	UPROPERTY(EditAnywhere) TArray<AActor*> spawnLocations;
+	UPROPERTY(EditAnywhere) TArray<AActor*> possibleObjects;
 
-	void SpawnNActors() const;
-	//TList<AActor*> spawnedActors;
-		
+	AActor* activeObject;
+	int spawnIndex = 0;
+	int itemIndex = 0;
+
+	float ticks = 0.0;
+	const float SPAWN_INTERVAL = 1.0f;
+
+	void DelaySpawn();
+	
 };
