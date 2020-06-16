@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "Engine/EngineTypes.h"
 #include "ObjectPool.h"
+#include "Math/UnrealMathUtility.h"
 #include "SimplePoolController.generated.h"
 
 
@@ -31,6 +32,9 @@ private:
 	UObjectPool* objectPool;
 
 	float ticks = 0.0;
-	const float SPAWN_INTERVAL = 1.0f;
+	const float SPAWN_INTERVAL = FMath::RandRange(1.0f, 4.0f);
+
+	float releaseTicks = 0.0f;
+	const float RELEASE_INTERVAL = 2.0f;
 		
 };

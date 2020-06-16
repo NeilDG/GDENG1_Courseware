@@ -33,6 +33,7 @@ public:
 
 	void ReleasePoolable(AActorPoolable* poolableObject);
 	void ReleasePoolableBatch(TArray<AActorPoolable*> objectList);
+	void ReleasePoolableBatch(int count);
 
 private:
 	UPROPERTY(EditAnywhere) int maxPoolSize = 20;

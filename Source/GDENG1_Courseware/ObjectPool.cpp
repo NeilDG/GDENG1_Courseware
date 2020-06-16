@@ -58,6 +58,7 @@ void UObjectPool::Initialize()
 	const FTransform transform = this->actorCopy->GetActorTransform();
 	for (int i = 0; i < this->maxPoolSize - 1; i++) {
 		AActorPoolable* poolableObject = this->GetWorld()->SpawnActor<AActorPoolable>(this->actorCopy->GetClass(), spawnParams);
+		poolableObject->SetIndex(i);
 		poolableObject->OnInitialize();
 		this->availableObjects.Push(poolableObject);
 	}
@@ -72,6 +73,7 @@ AActorPoolable* UObjectPool::RequestPoolable()
 {
 	if (this->HasObjectAvailable(1)) {
 		AActorPoolable* object = this->availableObjects.Pop();
+		object->SetIndex(this->usedObjects.Num());
 		this->usedObjects.Push(object);
 		object->SetActorTransform(this->GetOwner()->GetActorTransform());
 		object->OnActivate();
@@ -97,9 +99,26 @@ TArray<AActorPoolable*> UObjectPool::RequestPoolableBatch(int size)
 
 void UObjectPool::ReleasePoolable(AActorPoolable* poolableObject)
 {
+	poolableObject->OnRelease();
+	this->usedObjects.Remove(poolableObject);
+	this->availableObjects.Push(poolableObject);
 }
 
 void UObjectPool::ReleasePoolableBatch(TArray<AActorPoolable*> objectList)
 {
+	for (int i = 0; i < objectList.Num(); i++) {
+		this->ReleasePoolable(objectList[i]);
+	}
+}
+
+void UObjectPool::ReleasePoolableBatch(int count)
+{
+	TArray<AActorPoolable*> toRemove;
+	for (int i = 0; i < this->usedObjects.Num() && i < count; i++) {
+		toRemove.Push(this->usedObjects[i]);
+	}
+
+	
+	this->ReleasePoolableBatch(toRemove);
 }
 

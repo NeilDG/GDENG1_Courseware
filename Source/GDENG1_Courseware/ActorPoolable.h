@@ -27,4 +27,10 @@ public:
 	virtual void OnRelease(); //throws this event when this object has been released back to the pool.
 	virtual void OnActivate(); //throws this event when this object has been activated from the pool.
 
+	void SetIndex(int i);
+	int GetIndex();
+
+private:
+	int index = -1;
+
 };

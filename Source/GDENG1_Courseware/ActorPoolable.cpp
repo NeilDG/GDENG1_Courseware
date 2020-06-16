@@ -35,7 +35,9 @@ void AActorPoolable::OnInitialize()
 
 void AActorPoolable::OnRelease()
 {
-	
+	this->SetActorHiddenInGame(true);
+	this->SetActorTickEnabled(false);
+	this->FindComponentByClass<UPrimitiveComponent>()->SetSimulatePhysics(false);
 }
 
 void AActorPoolable::OnActivate()
@@ -43,5 +45,15 @@ void AActorPoolable::OnActivate()
 	this->SetActorHiddenInGame(false);
 	this->SetActorTickEnabled(true);
 	this->FindComponentByClass<UPrimitiveComponent>()->SetSimulatePhysics(true);
+}
+
+void AActorPoolable::SetIndex(int i)
+{
+	this->index = i;
+}
+
+int AActorPoolable::GetIndex()
+{
+	return this->index;
 }
 
