@@ -35,12 +35,15 @@ void USimplePoolController::TickComponent(float DeltaTime, ELevelTick TickType, 
 	this->releaseTicks += DeltaTime;
 	if (this->ticks > SPAWN_INTERVAL) {
 		this->ticks = 0.0f;
-		this->objectPool->RequestPoolableBatch(5);
+		this->SPAWN_INTERVAL = FMath::RandRange(1.0f, 4.0f);
+		int batchSize = FMath::RandRange(1, this->objectPool->GetMaxPoolSize()); //NOTE: Randrange is inclusive.
+		this->objectPool->RequestPoolableBatch(batchSize);
 	}
 
 	if (this->releaseTicks > RELEASE_INTERVAL) {
 		this->releaseTicks = 0.0f;
-		int batchSize = FMath::RandRange(20, 20); //NOTE: Randrange is inclusive.
+		this->RELEASE_INTERVAL = FMath::RandRange(1.0f, 4.0f);
+		int batchSize = FMath::RandRange(1, this->objectPool->GetMaxPoolSize());
 		UE_LOG(LogTemp, Display, TEXT("Releasing %d objects back to pool."), batchSize);
 		this->objectPool->ReleasePoolableBatch(batchSize);
 	}

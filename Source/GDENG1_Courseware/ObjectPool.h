@@ -28,6 +28,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void Initialize();
 	bool HasObjectAvailable(int requestSize);
+	int GetMaxPoolSize();
 	AActorPoolable* RequestPoolable();
 	TArray<AActorPoolable*> RequestPoolableBatch(int size);
 

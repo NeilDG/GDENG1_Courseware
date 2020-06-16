@@ -45,11 +45,6 @@ void UObjectPool::Initialize()
 		UE_LOG(LogTemp, Display, TEXT("Actor is null. Object pool not initialized."));
 		return;
 	}
-	
-	UE_LOG(LogTemp, Display, TEXT("Actor is %s"), *this->actorCopy->GetName());
-
-	//disable per-update functions
-	
 
 	FActorSpawnParameters spawnParams;
 	spawnParams.Template = this->actorCopy;
@@ -69,15 +64,20 @@ bool UObjectPool::HasObjectAvailable(int requestSize)
 	return this->availableObjects.Num() > 0;
 }
 
+int UObjectPool::GetMaxPoolSize()
+{
+	return this->maxPoolSize;
+}
+
 AActorPoolable* UObjectPool::RequestPoolable()
 {
 	if (this->HasObjectAvailable(1)) {
 		AActorPoolable* object = this->availableObjects.Pop();
 		object->SetIndex(this->usedObjects.Num());
 		this->usedObjects.Push(object);
-		object->SetActorTransform(this->GetOwner()->GetActorTransform());
 		object->OnActivate();
-		UE_LOG(LogTemp, Display, TEXT("Finished spawning %s"), *object->GetName());
+		object->SetActorTransform(this->GetOwner()->GetActorTransform());
+		//UE_LOG(LogTemp, Display, TEXT("Finished spawning %s"), *object->GetName());
 		return object;
 	}
 	else {
