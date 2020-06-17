@@ -27,6 +27,16 @@ void UObjectPool::BeginPlay()
 void UObjectPool::BeginDestroy()
 {
 	Super::BeginDestroy(); //IMPORTANT: Any lifecycle events must have super function. Or else Unreal Engine will crash.
+	for (int i = 0; i < this->availableObjects.Num(); i++) {
+		this->availableObjects[i]->Destroy();
+	}
+
+	for (int i = 0; i < this->usedObjects.Num(); i++) {
+		this->usedObjects[i]->Destroy();
+	}
+
+	this->availableObjects.Empty();
+	this->usedObjects.Empty();
 }
 
 
