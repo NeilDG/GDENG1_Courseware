@@ -4,9 +4,9 @@
 
 #include "TankPawn.h"
 #include "CoreMinimal.h"
+#include "Components/Image.h"
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
-
 /**
  * 
  */
@@ -18,7 +18,17 @@ class GDENG1_COURSEWARE_API ATankPlayerController : public APlayerController
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	virtual void Tick(float deltaTime) override;
+	UPROPERTY(BlueprintReadWrite) FVector2D crosshairScreenLoc;
+	UPROPERTY(BlueprintReadWrite) AActor* actorCopy;
 
-public:
+private:
+	FVector latestCameraLoc;
+	FVector latestWorldDirection;
+	FVector latestWorldPoint;
+
 	ATankPawn* GetControlledTank() const;
+	bool GetRayHitLocation();
+	bool GetWorldPoint();
+	void OnFire();
 };

@@ -8,7 +8,7 @@ public class GDENG1_Courseware : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG"}); //add UMG public dependency for UI manipulation in code
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

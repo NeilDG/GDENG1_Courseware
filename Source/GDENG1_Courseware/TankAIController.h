@@ -15,10 +15,9 @@ class GDENG1_COURSEWARE_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 	
-protected:
+private:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:
 	ATankPawn* GetControlledTank() const;
+	ATankPawn* GetPlayerTank() const;
 };
