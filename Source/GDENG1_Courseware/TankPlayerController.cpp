@@ -21,7 +21,8 @@ void ATankPlayerController::BeginPlay() {
 
 	UInputComponent* inputComponent = this->FindComponentByClass<UInputComponent>();
 	inputComponent->BindAction("Grab", EInputEvent::IE_Pressed, this, &ATankPlayerController::OnFire);
-
+	inputComponent->BindAxis("MoveX", this, &ATankPlayerController::OnMove);
+	inputComponent->BindAxis("MoveY", this, &ATankPlayerController::OnSideways);
 }
 void ATankPlayerController::Tick(float deltaTime)
 {
@@ -65,14 +66,24 @@ void ATankPlayerController::OnFire()
 	
 }
 
+void ATankPlayerController::OnMove(float axis)
+{
+	this->GetPawn<ATankPawn>()->Move(axis);
+}
+
+void ATankPlayerController::OnSideways(float axis)
+{
+	this->GetPawn<ATankPawn>()->Sideways(axis);
+}
+
 //performs ray tracing and hits the first valid object.
 bool ATankPlayerController::GetWorldPoint() {
 	FHitResult hitResult;
-	FVector startLoc = this->PlayerCameraManager->GetCameraLocation();
+	FVector startLoc = this->latestCameraLoc; //Alternative: PlayerCameraManager->GetCameraLocation();
 	FVector endLoc = startLoc + (this->latestWorldDirection * 50000000.0f);
 	
 	bool result = this->GetWorld()->LineTraceSingleByChannel(hitResult, startLoc, endLoc, ECollisionChannel::ECC_Visibility);
-	DrawDebugLine(this->GetWorld(), startLoc, endLoc, FColor::Red, false, 5.0, 0, 5.0f);
+	//DrawDebugLine(this->GetWorld(), startLoc, endLoc, FColor::Red, false, 5.0, 0, 5.0f);
 	this->latestWorldPoint = hitResult.Location;
 	return result;
 }
