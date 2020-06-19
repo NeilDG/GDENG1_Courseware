@@ -26,6 +26,7 @@ void ATankAIController::Tick(float deltaTime)
 
 	this->fireTicks += deltaTime;
 	if (this->fireTicks > this->FIRE_INTERVAL) {
+		this->FIRE_INTERVAL = FMath::FRandRange(0.25, 4.0f);
 		this->fireTicks = 0.0f;
 		//this->OnFire();
 	}
@@ -66,8 +67,9 @@ bool ATankAIController::GetWorldPoint() {
 	FVector startLoc = this->GetControlledTank()->GetActorLocation();
 	FVector endLoc = this->GetPlayerTank()->GetActorLocation();
 
-	bool result = this->GetWorld()->LineTraceSingleByChannel(hitResult, startLoc, endLoc, ECollisionChannel::ECC_Visibility);
-	DrawDebugLine(this->GetWorld(), startLoc, endLoc, FColor::Red, false, 5.0, 0, 5.0f);
-	this->latestWorldPoint = hitResult.Location;
+	bool result = this->GetWorld()->LineTraceSingleByChannel(hitResult, startLoc, endLoc, ECollisionChannel::ECC_WorldDynamic);
+	DrawDebugLine(this->GetWorld(), startLoc, endLoc, FColor::Red, false, 1.0, 0, 5.0f);
+	///this->latestWorldPoint = hitResult.Location;
+	this->latestWorldPoint = endLoc;
 	return result;
 }

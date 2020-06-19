@@ -85,5 +85,6 @@ bool ATankPlayerController::GetWorldPoint() {
 	bool result = this->GetWorld()->LineTraceSingleByChannel(hitResult, startLoc, endLoc, ECollisionChannel::ECC_Visibility);
 	//DrawDebugLine(this->GetWorld(), startLoc, endLoc, FColor::Red, false, 5.0, 0, 5.0f);
 	this->latestWorldPoint = hitResult.Location;
+	this->latestWorldPoint.Z += 100.0f; //add offset
 	return result;
 }
