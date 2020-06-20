@@ -28,7 +28,7 @@ void ATankAIController::Tick(float deltaTime)
 	if (this->fireTicks > this->FIRE_INTERVAL) {
 		this->FIRE_INTERVAL = FMath::FRandRange(0.25, 4.0f);
 		this->fireTicks = 0.0f;
-		//this->OnFire();
+		this->OnFire();
 	}
 }
 

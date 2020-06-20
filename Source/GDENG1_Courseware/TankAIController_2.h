@@ -3,15 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TankPawn.h"
 #include "AIController.h"
-#include "TankAIController.generated.h"
+#include "TankPawn_2.h"
+#include "TankAIController_2.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class GDENG1_COURSEWARE_API ATankAIController : public AAIController
+class GDENG1_COURSEWARE_API ATankAIController_2 : public AAIController
 {
 	GENERATED_BODY()
 
@@ -22,8 +22,8 @@ private:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
-	ATankPawn* GetControlledTank() const;
-	ATankPawn* GetPlayerTank() const;
+	ATankPawn_2* GetControlledTank() const;
+	ATankPawn_2* GetPlayerTank() const;
 
 	bool GetWorldPoint();
 	void OnFire();
