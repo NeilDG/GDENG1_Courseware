@@ -55,7 +55,7 @@ bool ATankAIController_2::GetWorldPoint()
 void ATankAIController_2::OnFire()
 {
 	if (this->actorCopy != NULL && this->GetWorldPoint()) {
-		/*FActorSpawnParameters spawnParams;
+		FActorSpawnParameters spawnParams;
 		spawnParams.Template = this->actorCopy;
 		spawnParams.Owner = this->GetOwner();
 
@@ -63,7 +63,7 @@ void ATankAIController_2::OnFire()
 		myActor->AttachToActor(this->GetOwner(), FAttachmentTransformRules::KeepRelativeTransform); //works but does not show hierarchy in outliner during gameplay.
 		myActor->SetActorHiddenInGame(false);
 		myActor->SetActorLocation(this->latestWorldPoint);
-		myActor->SetActorRotation(this->actorCopy->GetActorRotation());*/
+		myActor->SetActorRotation(this->actorCopy->GetActorRotation());
 
 		UE_LOG(LogTemp, Display, TEXT("Firing on: %s"), *this->latestWorldPoint.ToString());
 	}

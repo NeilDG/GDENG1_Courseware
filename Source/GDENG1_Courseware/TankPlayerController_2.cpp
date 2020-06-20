@@ -10,6 +10,7 @@ void ATankPlayerController_2::BeginPlay()
 
 	UInputComponent* inputComponent = this->FindComponentByClass<UInputComponent>();
 	inputComponent->BindAction("Grab", EInputEvent::IE_Pressed, this, &ATankPlayerController_2::OnFire);
+	inputComponent->BindAxis("MoveX", this, &ATankPlayerController_2::OnMove);
 }
 
 void ATankPlayerController_2::Tick(float deltaTime)
@@ -66,4 +67,9 @@ void ATankPlayerController_2::OnFire()
 	else {
 		UE_LOG(LogTemp, Display, TEXT("No available target!"));
 	}
+}
+
+void ATankPlayerController_2::OnMove(float axis)
+{
+	this->GetControlledTank()->Move(axis);
 }
