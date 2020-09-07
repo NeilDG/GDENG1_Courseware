@@ -39,5 +39,5 @@ private:
 	enum DoorState { OPEN = 0, CLOSED = 1 };
 	DoorState doorState = OPEN;
 
-	float GetTotalMass() const;
+	float GetPressurePlateTotalMass() const;
 };

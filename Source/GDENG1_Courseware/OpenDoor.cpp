@@ -14,7 +14,6 @@ UOpenDoor::UOpenDoor()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
 	// ...
 }
 
@@ -41,12 +40,12 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	//open door
 	//UE_LOG(LogTemp, Display, TEXT("Total mass: %f"), this->GetTotalMass());
-	if (this->GetTotalMass() >= this->totalMass && this->doorState == CLOSED) {
+	if (this->GetPressurePlateTotalMass() >= this->totalMass && this->doorState == CLOSED) {
 		this->ticks = 0.0f;
 		this->doorState = OPEN;
 	}
 	
-	else if (this->GetTotalMass() < this->totalMass && this->doorState == OPEN) {
+	else if (this->GetPressurePlateTotalMass() < this->totalMass && this->doorState == OPEN) {
 		this->doorState = CLOSED;
 	}
 
@@ -93,7 +92,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	}*/
 }
 
-float UOpenDoor::GetTotalMass() const
+float UOpenDoor::GetPressurePlateTotalMass() const
 {
 	TArray<AActor*> actors;
 	this->pressurePlate->GetOverlappingActors(actors);

@@ -57,14 +57,6 @@ void USnowmanController::MoveX(float axisValue)
 		this->alongY = false;
 	}
 	
-	/*if (this->snowmanPawn != NULL) {
-		FVector location = this->snowmanPawn->GetTransform().GetLocation();
-		float movement = FMath::Clamp(axisValue, -1.0f, 1.0f) * 1.0f;
-		location.X += movement;
-		this->snowmanPawn->SetActorLocation(location);
-		UE_LOG(LogTemp, Display, TEXT("Location: %f"), location.X);
-	}*/
-	
 }
 
 void USnowmanController::MoveY(float axisValue)
@@ -75,13 +67,5 @@ void USnowmanController::MoveY(float axisValue)
 		this->alongY = true;
 		this->alongX = false;
 	}
-
-	/*if (this->snowmanPawn != NULL) {
-		FVector location = this->snowmanPawn->GetTransform().GetLocation();
-		float movement = FMath::Clamp(axisValue, -1.0f, 1.0f) * 1.0f;
-		location.Y += movement;
-		this->snowmanPawn->SetActorLocation(location);
-		UE_LOG(LogTemp, Display, TEXT("Location: %f"), location.X);
-	}*/
 }
 

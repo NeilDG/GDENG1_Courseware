@@ -32,6 +32,5 @@ private:
 	bool GetRayHitLocation();
 	bool GetWorldPoint();
 	void OnFire();
-
 	void OnMove(float axis);
 };
