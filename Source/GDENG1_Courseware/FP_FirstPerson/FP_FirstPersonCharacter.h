@@ -17,6 +17,7 @@ class AFP_FirstPersonCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+protected:
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
 	USkeletalMeshComponent* Mesh1P;
@@ -66,7 +67,7 @@ protected:
 	void TouchStarted(const ETouchIndex::Type FingerIndex, const FVector Location);
 
 	/** Fires a virtual projectile. */
-	void OnFire();
+	virtual void OnFire();
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);

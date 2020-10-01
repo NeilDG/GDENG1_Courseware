@@ -53,6 +53,8 @@ AFP_FirstPersonCharacter::AFP_FirstPersonCharacter()
 
 	// Note: The ProjectileClass and the skeletal mesh/anim blueprints for Mesh1P are set in the
 	// derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	UE_LOG(LogTemp, Log, TEXT("Base function"));
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -133,11 +135,13 @@ void AFP_FirstPersonCharacter::OnFire()
 	// Deal with impact
 	AActor* DamagedActor = Impact.GetActor();
 	UPrimitiveComponent* DamagedComponent = Impact.GetComponent();
+	
 
 	// If we hit an actor, with a component that is simulating physics, apply an impulse
 	if ((DamagedActor != NULL) && (DamagedActor != this) && (DamagedComponent != NULL) && DamagedComponent->IsSimulatingPhysics())
 	{
-		DamagedComponent->AddImpulseAtLocation(ShootDir * WeaponDamage, Impact.Location);
+		//DamagedComponent->AddImpulseAtLocation(ShootDir * WeaponDamage, Impact.Location);
+		UE_LOG(LogTemp, Log, TEXT("I've shoot an actor named %s"), *DamagedActor->GetName());
 	}
 }
 
