@@ -8,9 +8,16 @@
 #include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
+#include "PlayerInventoryManager.h"
 
 ACustomFPSCharacter::ACustomFPSCharacter(): AFP_FirstPersonCharacter(){
 
+}
+
+void ACustomFPSCharacter::BeginPlay()
+{
+	AFP_FirstPersonCharacter::BeginPlay();
+	this->activeItem = APlayerInventoryManager::GetSharedInstance()->GetBulletData(APlayerInventoryManager::BASIC_BULLET_INDEX);
 }
 
 void ACustomFPSCharacter::OnFire() {
@@ -38,9 +45,12 @@ void ACustomFPSCharacter::OnFire() {
 		myActor->SetActorHiddenInGame(false);
 		myActor->SetActorLocation(spawnLocation);
 		myActor->SetActorRotation(spawnRotation);
-
+		myActor->SetActorScale3D(FVector(this->activeItem->GetBulletSize()));
+		
 		UPrimitiveComponent* myActorComponent = (UPrimitiveComponent*)myActor->GetRootComponent();
-		myActorComponent->AddImpulseAtLocation(ShootDir * this->WeaponDamage, this->projectileSpawnPos);
+		myActorComponent->AddImpulseAtLocation(ShootDir * this->WeaponDamage * this->activeItem->GetBulletSpeed(), this->projectileSpawnPos);
+
+		UE_LOG(LogTemp, Log, TEXT("Current item equipped: %s Speed: %f Size: %f"), *this->activeItem->GetItemName().ToString(), this->activeItem->GetBulletSpeed(), this->activeItem->GetBulletSize());
 	}
 	else {
 		UE_LOG(LogTemp, Log, TEXT("No projectile copy detected."));

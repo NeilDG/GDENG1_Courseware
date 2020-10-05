@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "FP_FirstPerson/FP_FirstPersonCharacter.h"
 #include "Components/StaticMeshComponent.h"
+#include "ItemData.h"
 #include "CustomFPSCharacter.generated.h"
 
 /**
@@ -18,7 +19,12 @@ public:
 	ACustomFPSCharacter();
 
 protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
 	void OnFire() override;
 	UPROPERTY(BlueprintReadWrite) AActor* projectileCopy = NULL;
 	UPROPERTY(BlueprintReadWrite) FVector projectileSpawnPos;
+
+private:
+	ItemData* activeItem;
 };

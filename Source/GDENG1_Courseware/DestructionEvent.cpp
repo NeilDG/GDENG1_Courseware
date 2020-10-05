@@ -19,10 +19,10 @@ void UDestructionEvent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(this->itemCopy != NULL)
+	/*if(this->itemCopy != NULL)
 	{
 		UDestructionEvent::SetEnabled(this->itemCopy, false);
-	}
+	}*/
 }
 
 
