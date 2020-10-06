@@ -29,9 +29,12 @@ void UPickableItem::BeginPlay()
 void UPickableItem::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if(!this->GetOwner()->IsHidden() && this->GetOwner()->IsOverlappingActor(UGameplayStatics::GetPlayerController(this->GetWorld(), 0)->GetPawn()))
+
+	APawn* playerPawn = UGameplayStatics::GetPlayerController(this->GetWorld(), 0)->GetPawn();
+	if(this->hasOverlap && this->actorOverlap->GetName() == playerPawn->GetName())
 	{
 		UE_LOG(LogTemp, Log, TEXT("I am picking up item: %s"), *this->GetOwner()->GetName());
+		this->GetOwner()->Destroy();
 		this->destructibleOwner->Destroy();
 	}
 }
@@ -39,5 +42,21 @@ void UPickableItem::TickComponent(float DeltaTime, ELevelTick TickType, FActorCo
 void UPickableItem::SetActorParent(AActor* parent)
 {
 	this->destructibleOwner = parent;
+}
+
+void UPickableItem::SetOverlap(AActor* overlappingActor, bool flag)
+{
+	this->actorOverlap = overlappingActor;
+	this->hasOverlap = flag;
+
+	if(this->hasOverlap)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Overlap detected with: %s"), *this->actorOverlap->GetName());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("Overlap exitted: %s"), *this->actorOverlap->GetName());
+	}
+	
 }
 
