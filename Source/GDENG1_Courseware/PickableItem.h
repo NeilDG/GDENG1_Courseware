@@ -28,9 +28,10 @@ public:
 	
 protected:
 	UFUNCTION(BlueprintCallable) void SetOverlap(AActor* overlappingActor, bool flag);
-
+	
 private:
 	AActor* destructibleOwner;
 	AActor* actorOverlap;
 	bool hasOverlap = false;
+	
 };

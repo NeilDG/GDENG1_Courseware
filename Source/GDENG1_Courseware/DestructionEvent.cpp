@@ -43,17 +43,18 @@ void UDestructionEvent::OnFracture(const FVector& HitPoint, const FVector& HitDi
 	}
 
 	this->triggered = true;
-	UE_LOG(LogTemp, Warning, TEXT("I am destroying!!"));
-	
 	//spawn additional projectile
 	UItemLibrary* itemLibrary = static_cast<UItemLibrary*>(this->itemLibraryActor->GetComponentByClass(UItemLibrary::StaticClass()));
 	AActor* itemCopy = itemLibrary->GetRandomItem();
+	UE_LOG(LogTemp, Warning, TEXT("Dropped item: %s"), *itemCopy->GetName());
+	
 	FActorSpawnParameters spawnParams;
 	spawnParams.Template = itemCopy;
+	spawnParams.ObjectFlags = RF_WasLoaded;
 	spawnParams.Owner = this->GetOwner();
 
-	FVector spawnLocation = this->GetOwner()->GetActorLocation();
-	FRotator spawnRotation = this->GetOwner()->GetActorRotation();
+	const FVector spawnLocation = this->GetOwner()->GetActorLocation();
+	const FRotator spawnRotation = this->GetOwner()->GetActorRotation();
 
 	AActor* myActor = this->GetWorld()->SpawnActor<AActor>(itemCopy->GetClass(), spawnParams);
 	//myActor->AttachToActor(this->GetOwner(), FAttachmentTransformRules::KeepRelativeTransform); //works but does not show hierarchy in outliner during gameplay.
