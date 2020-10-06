@@ -29,8 +29,7 @@ void UPickableItem::BeginPlay()
 void UPickableItem::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
-	if(this->triggerVolume != NULL && !this->GetOwner()->IsHidden() && this->triggerVolume->IsOverlappingActor(UGameplayStatics::GetPlayerController(this->GetWorld(), 0)->GetPawn()))
+	if(!this->GetOwner()->IsHidden() && this->GetOwner()->IsOverlappingActor(UGameplayStatics::GetPlayerController(this->GetWorld(), 0)->GetPawn()))
 	{
 		UE_LOG(LogTemp, Log, TEXT("I am picking up item: %s"), *this->GetOwner()->GetName());
 		this->destructibleOwner->Destroy();

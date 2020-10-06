@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/TriggerVolume.h"
+#include "GameFramework/Actor.h"
 #include "Components/ActorComponent.h"
 #include "PickableItem.generated.h"
 
@@ -27,6 +27,5 @@ public:
 	void SetActorParent(AActor* parent);
 
 private:
-	UPROPERTY(EditAnywhere) ATriggerVolume* triggerVolume;
 	AActor* destructibleOwner;
 };

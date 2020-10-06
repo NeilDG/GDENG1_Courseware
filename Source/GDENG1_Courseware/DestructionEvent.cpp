@@ -37,7 +37,7 @@ void UDestructionEvent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 void UDestructionEvent::OnFracture(const FVector& HitPoint, const FVector& HitDirection)
 {
 	
-	if(this->itemCopy == NULL || this->triggered)
+	if(this->triggered)
 	{
 		return;
 	}
@@ -46,14 +46,16 @@ void UDestructionEvent::OnFracture(const FVector& HitPoint, const FVector& HitDi
 	UE_LOG(LogTemp, Warning, TEXT("I am destroying!!"));
 	
 	//spawn additional projectile
+	UItemLibrary* itemLibrary = static_cast<UItemLibrary*>(this->itemLibraryActor->GetComponentByClass(UItemLibrary::StaticClass()));
+	AActor* itemCopy = itemLibrary->GetRandomItem();
 	FActorSpawnParameters spawnParams;
-	spawnParams.Template = this->itemCopy;
+	spawnParams.Template = itemCopy;
 	spawnParams.Owner = this->GetOwner();
 
 	FVector spawnLocation = this->GetOwner()->GetActorLocation();
 	FRotator spawnRotation = this->GetOwner()->GetActorRotation();
 
-	AActor* myActor = this->GetWorld()->SpawnActor<AActor>(this->itemCopy->GetClass(), spawnParams);
+	AActor* myActor = this->GetWorld()->SpawnActor<AActor>(itemCopy->GetClass(), spawnParams);
 	//myActor->AttachToActor(this->GetOwner(), FAttachmentTransformRules::KeepRelativeTransform); //works but does not show hierarchy in outliner during gameplay.
 	UDestructionEvent::SetEnabled(myActor, true);
 	myActor->SetActorLocation(spawnLocation);

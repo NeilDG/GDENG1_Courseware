@@ -2,6 +2,7 @@
 
 
 #include "ItemLibrary.h"
+#include "Math/UnrealMathUtility.h"
 
 // Sets default values for this component's properties
 UItemLibrary::UItemLibrary()
@@ -34,5 +35,11 @@ void UItemLibrary::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+AActor* UItemLibrary::GetRandomItem()
+{
+	const int index = FMath::RandRange(0, this->availableItems.Num() - 1);
+	return this->availableItems[index];
 }
 

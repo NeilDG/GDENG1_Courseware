@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "DestructibleComponent.h"
+#include "ItemLibrary.h"
 #include "DestructionEvent.generated.h"
 
 
@@ -24,7 +25,7 @@ protected:
 	UFUNCTION(BlueprintCallable) void OnFracture(const FVector& HitPoint, const FVector& HitDirection);
 
 private:
-	UPROPERTY(EditAnywhere) AActor* itemCopy;
+	UPROPERTY(EditAnywhere) AActor* itemLibraryActor;
 	bool triggered;
 	static void SetEnabled(AActor* actor, bool flag);
 };
