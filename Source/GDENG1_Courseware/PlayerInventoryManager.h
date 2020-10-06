@@ -22,7 +22,8 @@ public:
 	
 	// Sets default values for this actor's properties
 	APlayerInventoryManager();
-	ItemData* GetBulletData(int index);
+	ItemData* GetActiveBullet();
+	void SetActiveIndex(int index);
 
 protected:
 	// Called when the game starts or when spawned
@@ -31,8 +32,11 @@ protected:
 private:
 	static APlayerInventoryManager* sharedInstance;
 	TArray<ItemData*> itemList;
+
+	int activeIndex = 0;
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	void PopulateItems();
+	ItemData* GetBulletData(int index);
 };

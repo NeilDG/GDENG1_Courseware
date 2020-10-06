@@ -2,10 +2,7 @@
 
 
 #include "CustomFPSCharacter.h"
-#include "Animation/AnimInstance.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/InputComponent.h"
-#include "Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "PlayerInventoryManager.h"
@@ -14,16 +11,21 @@ ACustomFPSCharacter::ACustomFPSCharacter(): AFP_FirstPersonCharacter(){
 
 }
 
+
 void ACustomFPSCharacter::BeginPlay()
 {
 	AFP_FirstPersonCharacter::BeginPlay();
-	this->activeItem = APlayerInventoryManager::GetSharedInstance()->GetBulletData(APlayerInventoryManager::BASIC_BULLET_INDEX);
+	this->projectileSpawnPos = this->GetOwner()->GetActorLocation();
+	this->activeItem = APlayerInventoryManager::GetSharedInstance()->GetActiveBullet();
 }
 
 void ACustomFPSCharacter::OnFire() {
 	AFP_FirstPersonCharacter::OnFire();
-
-	if (this->projectileCopy != NULL) {
+	this->activeItem = APlayerInventoryManager::GetSharedInstance()->GetActiveBullet();
+	
+	if (this->projectileCopy != nullptr && this->activeItem != nullptr) {
+		UE_LOG(LogTemp, Log, TEXT("Current item equipped: %s Speed: %f Size: %f"), *this->activeItem->GetItemName().ToString(), this->activeItem->GetBulletSpeed(), this->activeItem->GetBulletSize());
+		
 		//spawn additional projectile
 		FActorSpawnParameters spawnParams;
 		spawnParams.Template = this->projectileCopy;
@@ -49,8 +51,6 @@ void ACustomFPSCharacter::OnFire() {
 		
 		UPrimitiveComponent* myActorComponent = (UPrimitiveComponent*)myActor->GetRootComponent();
 		myActorComponent->AddImpulseAtLocation(ShootDir * this->WeaponDamage * this->activeItem->GetBulletSpeed(), this->projectileSpawnPos);
-
-		UE_LOG(LogTemp, Log, TEXT("Current item equipped: %s Speed: %f Size: %f"), *this->activeItem->GetItemName().ToString(), this->activeItem->GetBulletSpeed(), this->activeItem->GetBulletSize());
 	}
 	else {
 		UE_LOG(LogTemp, Log, TEXT("No projectile copy detected."));

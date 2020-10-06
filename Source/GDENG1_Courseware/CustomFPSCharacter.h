@@ -17,12 +17,12 @@ class GDENG1_COURSEWARE_API ACustomFPSCharacter : public AFP_FirstPersonCharacte
 	GENERATED_BODY()
 public:
 	ACustomFPSCharacter();
-
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void OnFire() override;
-	UPROPERTY(BlueprintReadWrite) AActor* projectileCopy = NULL;
+	UPROPERTY(BlueprintReadWrite) AActor* projectileCopy;
 	UPROPERTY(BlueprintReadWrite) FVector projectileSpawnPos;
 
 private:

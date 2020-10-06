@@ -33,8 +33,8 @@ void APlayerInventoryManager::Tick(float DeltaTime)
 
 void APlayerInventoryManager::PopulateItems()
 {
-	this->itemList.Add(new ItemData("Basic", 1.0f, 1.0f));
-	this->itemList.Add(new ItemData("FastBullet", 0.5f, 2.0f));
+	this->itemList.Add(new ItemData("BasicBullet", 0.5f, 1.0f));
+	this->itemList.Add(new ItemData("FastBullet", 0.15f, 2.0f));
 	this->itemList.Add(new ItemData("BigBullet", 2.0f, 1.0f));
 	this->itemList.Add(new ItemData("BFBullet", 3.0f, 3.0f));
 
@@ -44,5 +44,15 @@ void APlayerInventoryManager::PopulateItems()
 ItemData* APlayerInventoryManager::GetBulletData(int index)
 {
 	return this->itemList[index];
+}
+
+ItemData* APlayerInventoryManager::GetActiveBullet()
+{
+	return this->GetBulletData(this->activeIndex);
+}
+
+void APlayerInventoryManager::SetActiveIndex(int index)
+{
+	this->activeIndex = index;
 }
 

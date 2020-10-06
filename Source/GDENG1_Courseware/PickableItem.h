@@ -24,14 +24,4 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void SetActorParent(AActor* parent);
-	
-protected:
-	UFUNCTION(BlueprintCallable) void SetOverlap(AActor* overlappingActor, bool flag);
-	
-private:
-	AActor* destructibleOwner;
-	AActor* actorOverlap;
-	bool hasOverlap = false;
-	
 };

@@ -2,6 +2,7 @@
 
 
 #include "DestructionEvent.h"
+#include "PickableActor.h"
 #include "PickableItem.h"
 
 // Sets default values for this component's properties
@@ -50,18 +51,19 @@ void UDestructionEvent::OnFracture(const FVector& HitPoint, const FVector& HitDi
 	
 	FActorSpawnParameters spawnParams;
 	spawnParams.Template = itemCopy;
-	spawnParams.ObjectFlags = RF_WasLoaded;
 	spawnParams.Owner = this->GetOwner();
 
 	const FVector spawnLocation = this->GetOwner()->GetActorLocation();
 	const FRotator spawnRotation = this->GetOwner()->GetActorRotation();
 
-	AActor* myActor = this->GetWorld()->SpawnActor<AActor>(itemCopy->GetClass(), spawnParams);
-	//myActor->AttachToActor(this->GetOwner(), FAttachmentTransformRules::KeepRelativeTransform); //works but does not show hierarchy in outliner during gameplay.
+	APickableActor* myActor = this->GetWorld()->SpawnActor<APickableActor>(itemCopy->GetClass(), spawnParams);
+	myActor->AttachToActor(this->GetOwner(), FAttachmentTransformRules::KeepWorldTransform);
 	UDestructionEvent::SetEnabled(myActor, true);
 	myActor->SetActorLocation(spawnLocation);
 	myActor->SetActorRotation(spawnRotation);
-	myActor->FindComponentByClass<UPickableItem>()->SetActorParent(this->GetOwner());
+	myActor->SetActorParent(this->GetOwner());
+	myActor->SetItemIndex(itemLibrary->GetRandomItemIndex());
+	myActor->OnItemSetup();
 }
 
 void UDestructionEvent::SetEnabled(AActor* actor, bool flag)

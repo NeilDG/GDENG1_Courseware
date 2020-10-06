@@ -43,3 +43,9 @@ AActor* UItemLibrary::GetRandomItem()
 	return this->availableItems[index];
 }
 
+int UItemLibrary::GetRandomItemIndex()
+{
+	const int index = FMath::RandRange(0, this->availableItems.Num() - 1);
+	return index;
+}
+
