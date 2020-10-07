@@ -37,13 +37,13 @@ void UItemLibrary::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	// ...
 }
 
-AActor* UItemLibrary::GetRandomItem()
+APickableActor* UItemLibrary::GetRandomItem()
 {
 	const int index = FMath::RandRange(0, this->availableItems.Num() - 1);
 	return this->availableItems[index];
 }
 
-int UItemLibrary::GetRandomItemIndex()
+int UItemLibrary::GetRandomItemIndex() const
 {
 	const int index = FMath::RandRange(0, this->availableItems.Num() - 1);
 	return index;

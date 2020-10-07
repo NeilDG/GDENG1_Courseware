@@ -46,7 +46,7 @@ void UDestructionEvent::OnFracture(const FVector& HitPoint, const FVector& HitDi
 	this->triggered = true;
 	//spawn additional projectile
 	UItemLibrary* itemLibrary = static_cast<UItemLibrary*>(this->itemLibraryActor->GetComponentByClass(UItemLibrary::StaticClass()));
-	AActor* itemCopy = itemLibrary->GetRandomItem();
+	APickableActor* itemCopy = itemLibrary->GetRandomItem();
 	UE_LOG(LogTemp, Warning, TEXT("Dropped item: %s"), *itemCopy->GetName());
 	
 	FActorSpawnParameters spawnParams;

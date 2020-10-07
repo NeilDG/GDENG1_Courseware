@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "PickableItem.h"
+#include "PickableActor.h"
 #include "ItemLibrary.generated.h"
 
 
@@ -24,10 +24,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	AActor* GetRandomItem();
-	int GetRandomItemIndex();
+	APickableActor* GetRandomItem();
+	int GetRandomItemIndex() const;
 
 private:
-	UPROPERTY(EditAnywhere) TArray<AActor*> availableItems;
+	UPROPERTY(EditAnywhere) TArray<APickableActor*> availableItems;
 		
 };
