@@ -24,10 +24,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	APickableActor* GetRandomItem();
-	int GetRandomItemIndex() const;
+	APickableActor* GetPickableTemplate();
 
 private:
-	UPROPERTY(EditAnywhere) TArray<APickableActor*> availableItems;
+	UPROPERTY(EditAnywhere) APickableActor* pickableTemplate;
 		
 };

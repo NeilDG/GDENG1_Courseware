@@ -3,7 +3,7 @@
 
 #include "DestructionEvent.h"
 #include "PickableActor.h"
-#include "PickableItem.h"
+#include "PlayerInventoryManager.h"
 
 // Sets default values for this component's properties
 UDestructionEvent::UDestructionEvent()
@@ -46,7 +46,7 @@ void UDestructionEvent::OnFracture(const FVector& HitPoint, const FVector& HitDi
 	this->triggered = true;
 	//spawn additional projectile
 	UItemLibrary* itemLibrary = static_cast<UItemLibrary*>(this->itemLibraryActor->GetComponentByClass(UItemLibrary::StaticClass()));
-	APickableActor* itemCopy = itemLibrary->GetRandomItem();
+	APickableActor* itemCopy = itemLibrary->GetPickableTemplate();
 	UE_LOG(LogTemp, Warning, TEXT("Dropped item: %s"), *itemCopy->GetName());
 	
 	FActorSpawnParameters spawnParams;
@@ -62,7 +62,7 @@ void UDestructionEvent::OnFracture(const FVector& HitPoint, const FVector& HitDi
 	myActor->SetActorLocation(spawnLocation);
 	myActor->SetActorRotation(spawnRotation);
 	myActor->SetActorParent(this->GetOwner());
-	myActor->SetItemIndex(itemLibrary->GetRandomItemIndex());
+	myActor->SetItemIndex(APlayerInventoryManager::GetSharedInstance()->GetRandomItemIndex());
 	myActor->OnItemSetup();
 }
 

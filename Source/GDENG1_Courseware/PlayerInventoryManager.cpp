@@ -56,3 +56,9 @@ void APlayerInventoryManager::SetActiveIndex(int index)
 	this->activeIndex = index;
 }
 
+int APlayerInventoryManager::GetRandomItemIndex() const
+{
+	const int index = FMath::RandRange(0, this->itemList.Num() - 1);
+	return index;
+}
+

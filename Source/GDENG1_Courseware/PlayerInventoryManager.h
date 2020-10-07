@@ -24,6 +24,7 @@ public:
 	APlayerInventoryManager();
 	ItemData* GetActiveBullet();
 	void SetActiveIndex(int index);
+	int GetRandomItemIndex() const;
 
 protected:
 	// Called when the game starts or when spawned

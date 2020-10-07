@@ -22,10 +22,7 @@ void UItemLibrary::BeginPlay()
 
 	// ...
 	//hide templates
-	for(int i = 0; i < this->availableItems.Num(); i++)
-	{
-		this->availableItems[i]->SetActorHiddenInGame(true);
-	}
+	this->pickableTemplate->SetActorHiddenInGame(true);
 }
 
 
@@ -37,15 +34,8 @@ void UItemLibrary::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 	// ...
 }
 
-APickableActor* UItemLibrary::GetRandomItem()
+APickableActor* UItemLibrary::GetPickableTemplate()
 {
-	const int index = FMath::RandRange(0, this->availableItems.Num() - 1);
-	return this->availableItems[index];
-}
-
-int UItemLibrary::GetRandomItemIndex() const
-{
-	const int index = FMath::RandRange(0, this->availableItems.Num() - 1);
-	return index;
+	return this->pickableTemplate;
 }
 
