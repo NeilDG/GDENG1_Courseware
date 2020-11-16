@@ -39,7 +39,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	//open door
-	//UE_LOG(LogTemp, Display, TEXT("Total mass: %f"), this->GetTotalMass());
+	UE_LOG(LogTemp, Display, TEXT("Total mass: %f"), this->GetPressurePlateTotalMass());
 	if (this->GetPressurePlateTotalMass() >= this->totalMass && this->doorState == CLOSED) {
 		this->ticks = 0.0f;
 		this->doorState = OPEN;
