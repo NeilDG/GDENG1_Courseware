@@ -7,17 +7,7 @@
 		{
 			"Name": "GDENG1_Courseware",
 			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"Engine",
-				"AIModule"
-			]
-		}
-	],
-	"Plugins": [
-		{
-			"Name": "ApexDestruction",
-			"Enabled": true
+			"LoadingPhase": "Default"
 		}
 	]
 }
