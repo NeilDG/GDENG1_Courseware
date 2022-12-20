@@ -76,7 +76,7 @@ void UGrabberBehavior::Grab()
 
 	//perform line tracing
 	FVector lineTraceEnd = location + rotation.Vector() * REACH;
-	DrawDebugLine(this->GetWorld(), location, lineTraceEnd, FColor::Red, false, 0.0, 0, 5.0f);
+	DrawDebugLine(this->GetWorld(), location, lineTraceEnd, FColor::Red, false, 2.0, 0, 5.0f);
 
 	//raycast to a certain distance
 	FHitResult hitResult;
@@ -92,8 +92,8 @@ void UGrabberBehavior::Grab()
 		//using physics handle component
 		this->physicsHandle = this->grabbedActor->FindComponentByClass<UPhysicsHandleComponent>();
 		if (this->physicsHandle != NULL) {
-			//denotes the origin
-			this->physicsHandle->GrabComponentAtLocation(this->primitiveComp, EName::NAME_None, lineTraceEnd);
+			this->primitiveComp->AddForceAtLocation(lineTraceEnd * 1000.0f, lineTraceEnd, NAME_None); //add some force to "WAKE" physics system. UE5 aggressively sleeps static rigid bodies
+			this->physicsHandle->GrabComponentAtLocation(this->primitiveComp, NAME_None, lineTraceEnd);
 		}
 	}	
 }

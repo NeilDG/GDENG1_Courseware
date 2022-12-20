@@ -69,7 +69,9 @@ bool ATankAIController::GetWorldPoint() {
 
 	bool result = this->GetWorld()->LineTraceSingleByChannel(hitResult, startLoc, endLoc, ECollisionChannel::ECC_WorldDynamic);
 	DrawDebugLine(this->GetWorld(), startLoc, endLoc, FColor::Red, false, 1.0, 0, 5.0f);
-	this->latestWorldPoint = hitResult.Location;
-	///this->latestWorldPoint = endLoc;
+	//this->latestWorldPoint = hitResult.Location;
+	endLoc.Z = 150.0f;
+
+	this->latestWorldPoint = endLoc;
 	return result;
 }

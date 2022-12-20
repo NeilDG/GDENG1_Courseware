@@ -34,6 +34,6 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	const float TRACK_STRENGTH = 1250.0f;
+	const float TRACK_STRENGTH = 1000.0f;
 
 };

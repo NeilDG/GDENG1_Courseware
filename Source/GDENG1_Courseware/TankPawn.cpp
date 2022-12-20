@@ -41,18 +41,18 @@ void ATankPawn::Move(float throttleSpeed)
 
 	this->tankBody->AddForceAtLocation(forceVector, lTrackLoc);
 	this->tankBody->AddForceAtLocation(forceVector, rTrackLoc);
-	UE_LOG(LogTemp, Display, TEXT("Attempting to move with vector %s, Speed of %f"), *forceVector.ToString(), (throttleSpeed * speed));
+	//UE_LOG(LogTemp, Display, TEXT("Attempting to move with vector %s, Speed of %f"), *forceVector.ToString(), (throttleSpeed * speed));
 }
 
 void ATankPawn::Sideways(float throttleSpeed)
 {
-	float speed = (this->tankBody->GetMass() * this->TRACK_STRENGTH) * 0.4f; //damp sideways speed
+	float speed = (this->tankBody->GetMass() * this->TRACK_STRENGTH) * 0.1f; //damp sideways speed
 	FVector forceVector = this->GetActorForwardVector() * throttleSpeed * speed;
 	FVector lTrackLoc = this->leftTrack->GetComponentLocation();
 	FVector rTrackLoc = this->rightTrack->GetComponentLocation();
 
 	this->tankBody->AddForceAtLocation(forceVector, lTrackLoc);
 	this->tankBody->AddForceAtLocation(forceVector, -rTrackLoc);
-	UE_LOG(LogTemp, Display, TEXT("Attempting to sideways with vector %s, Speed of %f"), *forceVector.ToString(), (throttleSpeed * speed));
+	//UE_LOG(LogTemp, Display, TEXT("Attempting to sideways with vector %s, Speed of %f"), *forceVector.ToString(), (throttleSpeed * speed));
 }
 
